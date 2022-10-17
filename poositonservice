@@ -1,0 +1,66 @@
+package com.example.demo.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Repository.PositionRepository;
+import com.example.demo.dto.PositionDto;
+import com.example.demo.entities.Position;
+
+@Service
+
+public class PositionService {
+	@Autowired
+	
+	PositionRepository postionRepository;
+	
+	public void savePosition(PositionDto positionDto) {
+		
+		postionRepository.save(positionDtoToPosition(positionDto));
+		
+		
+		
+	}
+	
+	public Position positionDtoToPosition(PositionDto positionDto) {
+		 
+		Position pos=new Position();
+		pos.setDepartment_id(positionDto.getDepartment_id());
+		pos.setName(positionDto.getName());
+		
+		return pos;
+		
+	}
+	
+	public PositionDto positionToPositionDto(Position position) {
+		
+		PositionDto pdo=new PositionDto();
+		pdo.setDepartment_id(position.getDepartment_id());
+		pdo.setName(position.getName());
+		return pdo;
+		
+		
+	}
+	public void deletePosition(int department_id) {
+		postionRepository.deleteById(department_id);
+		
+		
+	}
+	public List<PositionDto>getAllDeductionDto(){
+		List<Position> position=this.postionRepository.findAll();
+		List<PositionDto> postionDto=position.stream().map(po ->this.positionToPositionDto(po)).collect(Collectors.toList());
+		return postionDto;
+		
+		
+	}
+	public PositionDto updateDeduction(PositionDto positionDto) {
+		
+		postionRepository.save(positionDtoToPosition(positionDto));
+		return positionDto;
+	}
+	
+
+}
