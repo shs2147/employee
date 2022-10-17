@@ -1,0 +1,45 @@
+package com.example.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.dto.PositionDto;
+import com.example.demo.services.PositionService;
+
+@RestController
+
+public class PositionController {
+	@Autowired
+	PositionService positionService;
+	@PostMapping("/position")
+	 public ResponseEntity<PositionDto>saveDeduct(@RequestBody PositionDto positionDto){
+		
+		positionService.savePosition(positionDto);
+		return new ResponseEntity<>(positionDto ,HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/position/{department_id}")
+	public void deletePosition (@PathVariable("department_id")int department_id) {
+		
+		positionService.deletePosition(department_id);
+		
+		
+	}
+	@PutMapping("/position")
+	public ResponseEntity<PositionDto>udateALLEntity(@RequestBody PositionDto positionDto){
+		
+		positionService.updateDeduction(positionDto);
+		return new ResponseEntity<>(positionDto,HttpStatus.CREATED);
+		
+	}
+	}
+	
+
+
